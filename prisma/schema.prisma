@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Categories {
+  id        Int         @id @default(autoincrement())
+  name      String      @db.VarChar(35)
+  createdAt DateTime    @default(now()) @db.Timestamp(0)
+  updatedAt DateTime    @default(now()) @db.Timestamp(6)
+  News_list News_list[]
+}
+
+model Comments {
+  id          Int       @id @default(autoincrement())
+  commentText String
+  userID      Int
+  postID      Int
+  createdAt   DateTime  @default(now()) @db.Timestamp(0)
+  updatedAt   DateTime  @default(now()) @db.Timestamp(6)
+  News_list   News_list @relation(fields: [postID], references: [id])
+  Users       Users     @relation(fields: [userID], references: [id])
+}
+
+model News_list {
+  id         Int        @id @default(autoincrement())
+  title      String     @db.VarChar(150)
+  short_des  String     @db.VarChar(350)
+  img1       String
+  img2       String
+  img3       String
+  img4       String
+  keywords   String
+  long_des   String
+  type       String
+  catID      Int
+  createdAt  DateTime   @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime   @default(now()) @db.Timestamp(6)
+  Comments   Comments[]
+  Categories Categories @relation(fields: [catID], references: [id])
+}
+
+model Policy {
+  id       Int    @id @default(autoincrement())
+  long_des String
+  type     String @db.VarChar(50)
+}
+
+model Socials {
+  id        Int      @id @default(autoincrement())
+  facebook  String   @db.VarChar(200)
+  youtube   String   @db.VarChar(200)
+  twitter   String   @db.VarChar(200)
+  linkedin  String   @db.VarChar(200)
+  about     String
+  address   String
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+  updatedAt DateTime @default(now()) @db.Timestamp(0)
+}
+
+model Subscribers {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique @db.VarChar(100)
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+  updatedAt DateTime @default(now()) @db.Timestamp(0)
+}
+
+model Users {
+  id        Int        @id @default(autoincrement())
+  firstName String     @db.VarChar(50)
+  lastName  String     @db.VarChar(50)
+  email     String     @unique @db.VarChar(50)
+  mobile    String     @db.VarChar(20)
+  password  String
+  otp       String     @default("000000")
+  createdAt DateTime   @default(now()) @db.Timestamp(0)
+  updatedAt DateTime   @default(now()) @db.Timestamp(6)
+  role      Role       @default(USER)
+  Comments  Comments[]
+}
+
+enum Role {
+  USER
+  EDITOR
+  ADMIN
+}
