@@ -6,6 +6,9 @@ const prisma = new PrismaClient();
 export const createNews = async (req, res, next) => {
   try {
     const reqBody = req.body;
+
+    reqBody.catID = Number(reqBody.catID);
+
     const imgUrls = await CloudinaryMultipleFileUpload(req.files.coverimage);
 
     if (!imgUrls[0])
@@ -14,7 +17,6 @@ export const createNews = async (req, res, next) => {
     reqBody.img2 = imgUrls[1] ? imgUrls[1] : "";
     reqBody.img3 = imgUrls[2] ? imgUrls[2] : "";
     reqBody.img4 = imgUrls[3] ? imgUrls[3] : "";
-
 
     const news = await prisma.News_list.create({
       data: reqBody,
