@@ -24,7 +24,6 @@ export const createNews = async (req, res, next) => {
 
     res.status(200).json({ success: true, data: news });
   } catch (error) {
-    console.log(error.toString());
     next(error);
   }
 };

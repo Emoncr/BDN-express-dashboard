@@ -30,12 +30,9 @@ if (process.env.NODE_ENV === "local") {
 import NewsRouter from "./routes/news.route.js";
 import CategoryRouter from "./routes/category.route.js";
 
-
-
 // Routes
 app.use("/api/news", NewsRouter);
-app.use("/api/category", CategoryRouter)
-
+app.use("/api/category", CategoryRouter);
 
 // Using Error Middleware
 app.use(errorMiddleware);
@@ -43,3 +40,5 @@ app.use(errorMiddleware);
 app.listen(port, () => {
   console.log("Server is running on port 3000");
 });
+
+export default () => app;
