@@ -9,7 +9,6 @@ const imgfields = [
 ];
 
 route.post("/create", uploadFiles.fields(imgfields), createNews);
-// route.post("/create", uploadFiles.single("coverimage"), createNews);
 
 
 export default route;

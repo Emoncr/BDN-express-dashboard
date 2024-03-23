@@ -1,6 +1,7 @@
 import express from "express";
 import "dotenv/config";
 import cors from "cors";
+import { errorMiddleware } from "./middleware/ErrorMiddleware.js";
 
 const app = express();
 const port = process.env.PORT;
@@ -27,10 +28,14 @@ if (process.env.NODE_ENV === "local") {
 
 // Import routes
 import NewsRouter from "./routes/news.route.js";
-import { errorMiddleware } from "./middleware/ErrorMiddleware.js";
+import CategoryRouter from "./routes/category.route.js";
+
+
 
 // Routes
 app.use("/api/news", NewsRouter);
+app.use("/api/category", CategoryRouter)
+
 
 // Using Error Middleware
 app.use(errorMiddleware);
